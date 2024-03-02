@@ -11,6 +11,17 @@ class ProductService extends AbstractService {
     this.productData = ProductData;
   }
 
+  async getById(id) {
+    const { dataValues } = await this.product.findOne({
+      where: { id },
+      include: [
+        { model: ProductData, as: 'data', attributes: { exclude: ['productId', 'id'] } },
+    ],
+    });
+
+    return dataValues;
+  }
+
   async getByName(name) {
     const product = await this.model.findOne({ name });
     return product;

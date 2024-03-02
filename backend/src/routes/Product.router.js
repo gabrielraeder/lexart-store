@@ -8,6 +8,7 @@ const router = express.Router();
 // router.use(authMiddleware);
 
 router.get('/', (req, res, next) => new ProductController(req, res, next).getAll());
+router.get('/:id', (req, res, next) => new ProductController(req, res, next).getById());
 router.post('/create', (req, res, next) => new ProductController(req, res, next).create());
 
 module.exports = router;
