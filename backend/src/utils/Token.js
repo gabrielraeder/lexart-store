@@ -15,4 +15,5 @@ const verifyToken = (authorization) => {
     throw new Error('ERROR');
   }
 };
+
 module.exports = { getToken, verifyToken };
