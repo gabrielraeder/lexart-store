@@ -7,9 +7,8 @@
     "node": ">=16.0.0"
   },
   "engineStrict": true,
-  "private": true,
   "scripts": {
-    "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
+    "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate",
     "start": "node .",
     "dev": "nodemon .",
     "test": "mocha src/tests/**/*$NAME*.test.js --exit",
@@ -31,7 +30,7 @@
     "multer": "1.4.4",
     "mysql2": "2.3.3",
     "pg": "^8.11.3",
-    "sequelize": "6.17.0",
+    "sequelize": "^6.37.1",
     "socket.io": "4.4.1"
   },
   "devDependencies": {
