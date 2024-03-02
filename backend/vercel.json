@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "devCommand": "npm start",
+  "builds": [
+    {
+      "src": "./src/server.js",
+      "use": "@now/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/src/server.js"
+    }
+  ]
+}
