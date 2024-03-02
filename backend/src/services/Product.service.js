@@ -10,11 +10,30 @@ class ProductService extends AbstractService {
     this.product = Product;
     this.productData = ProductData;
   }
+
+  async getByName(name) {
+    const product = await this.model.findOne({ name });
+    return product;
+  }
   
-  async create(data) {
-    const { product, details } = productMap(data);
-    
+  async create(data) {    
     try {
+      const productExists = await this.getByName(data.name);
+      const { product, details } = productMap(data);
+
+      if (productExists) {
+        const { dataValues: { id } } = productExists;
+  
+        await sequelize.transaction(async (t) => {
+          const mapped = details
+          .map((item) => this.productData.create({ ...item, productId: id }, { transaction: t }));
+  
+          await Promise.all(mapped);
+        });
+
+        return this.getById(id);
+      }
+
       const newProductId = await sequelize.transaction(async (t) => {
         const { dataValues: { id } } = await this.product.create(product, { transaction: t });
 
