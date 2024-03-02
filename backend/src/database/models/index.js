@@ -1,5 +1,3 @@
-'use strict';
-
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
@@ -7,6 +5,9 @@ const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
 const db = {};
+const User = require('./User');
+const Product = require('./Product');
+const ProductData = require('./ProductData');
 
 let sequelize;
 if (config.use_env_variable) {
@@ -24,6 +25,15 @@ fs
     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
     db[model.name] = model;
   });
+
+  const ProductModel = Product(sequelize, Sequelize.DataTypes);
+  db[ProductModel.name] = ProductModel;
+
+  const UserModel = User(sequelize, Sequelize.DataTypes);
+  db[UserModel.name] = UserModel;
+
+  const ProductDataModel = ProductData(sequelize, Sequelize.DataTypes);
+  db[ProductDataModel.name] = ProductDataModel;
 
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {

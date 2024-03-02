@@ -1,8 +1,8 @@
 const AbstractService = require('./Abstract.service');
 const { Product, ProductData, sequelize } = require('../database/models');
+const models = require('../database/models');
 const HttpException = require('../utils/HttpException');
 const productMap = require('../utils/productMap');
-
 
 class ProductService extends AbstractService {
   constructor() {
@@ -12,7 +12,8 @@ class ProductService extends AbstractService {
   }
 
   async getAll() {
-    const all = await this.model.findAll({
+    console.log(models.Sequelize)
+    const all = await models.Product.findAll({
       include: [
         { model: ProductData, as: 'data', attributes: { exclude: ['productId', 'id'] } },
       ],
