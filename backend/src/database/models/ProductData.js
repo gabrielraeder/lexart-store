@@ -3,7 +3,6 @@ module.exports = (sequelize, DataTypes) => {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     price: DataTypes.INTEGER,
     color: DataTypes.STRING,
-    model: DataTypes.STRING,
     productId: DataTypes.INTEGER,
   },
   {
