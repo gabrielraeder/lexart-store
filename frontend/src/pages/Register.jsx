@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import postAPI from '../utils/postAPI';
+import { postAPI } from '../utils/handleAPI';
 import context from '../context/context';
 
 function Register() {

@@ -16,8 +16,7 @@ export default function Provider({ children }) {
   const [state, setState] = useState(readLocalStorage(STORAGE_KEY, initialState)
   || initialState);
   const { token, email, id } = state;
-
-
+  
   const setUser = (user) => { setState((prevState) => ({ ...prevState, ...user })); };
 
   const resetUser = async () => setState(initialState);
@@ -25,7 +24,7 @@ export default function Provider({ children }) {
   const handleLogout = () => {
     resetUser();
     saveToLocalStorage({}, STORAGE_KEY);
-  }
+  };
 
   useMemo(() => {
     if (token) saveToLocalStorage({ token, email, id }, STORAGE_KEY);

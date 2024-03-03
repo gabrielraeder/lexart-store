@@ -1,21 +1,52 @@
 import MyNavbar from '../components/Navbar';
-import { useState, useEffect, useContext, useMemo } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import postAPI from '../utils/postAPI';
 import context from '../context/context';
+import CardList from '../components/CardList';
+import { getAPI } from '../utils/handleAPI';
+import AddButton from '../components/AddButton';
 
 function Main() {
-  const client = useContext(context);
+  const { token } = useContext(context);
   const history = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [currentData, setCurrentData] = useState([]);
 
   useEffect(() => {
-    if (!client.token) history('/')
-  }, [])
+    if (currentData) setLoading(false);
+  }, [currentData]);
   
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (!token) {
+          history('/');
+        } else {
+          await getAPI('/product', (res) => {
+            setCurrentData(res);
+          }, token);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
 
+    fetchData();
+  }, []);
+  
   return (
     <>
-      <MyNavbar/>
+      {
+        loading ? 
+        <div>LOADING...</div> : 
+        <>
+          <MyNavbar/>
+          <CardList data={currentData} editData={setCurrentData}/>
+          <AddButton/>
+        </>
+        
+      }
+      
     </>
   );
 }
