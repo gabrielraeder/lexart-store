@@ -20,14 +20,15 @@ class ProductService extends AbstractService {
   }
 
   async getById(id) {
-    const { dataValues } = await this.product.findOne({
+    const product = await this.product.findOne({
       where: { id },
       include: [
         { model: ProductData, as: 'data', attributes: { exclude: ['productId', 'id'] } },
       ],
     });
+    if (!product) return []
 
-    return dataValues;
+    return product.dataValues;
   }
 
   async getByName(name) {
@@ -47,35 +48,62 @@ class ProductService extends AbstractService {
     return product;
   }
 
+  async updateDataOfExistingProduct(productExists, details) {
+    const { dataValues: { id } } = productExists;
+
+    const mapDetails = details.map((item) => this.productData
+      .findOne({ where: {
+        [Sequelize.Op.and]: [
+          { color: item.color },
+          { productId: id }
+        ]
+      } }));
+
+    const detailsFound = await Promise.all(mapDetails);
+    
+    await sequelize.transaction(async (t) => {
+      const mapped = details
+      .map((item) => {
+        if (detailsFound) {
+          const itemFound = detailsFound.find(({ dataValues }) => dataValues.color === item.color);
+          if (itemFound) {
+            return  this.productData.update(item, { where: { id: itemFound.dataValues.id } })
+          }
+        }
+
+        return this.productData.create({ ...item, productId: id }, { transaction: t });
+      });
+
+      await Promise.all(mapped);
+    });
+
+    return this.getById(id);
+  }
+
+  async createNewProduct(product, details) {
+    const newProductId = await sequelize.transaction(async (t) => {
+      const { dataValues: { id } } = await this.product.create(product, { transaction: t });
+
+      const mapped = details
+      .map((item) => this.productData.create({ ...item, productId: id }, { transaction: t }));
+
+      await Promise.all(mapped);
+      
+      return id;
+    });
+    return this.getById(newProductId);
+  }
+
   async create(data) {    
     try {
       const productExists = await this.getByProperty(data.name, data.model);
       const { product, details } = productMap(data);
 
       if (productExists) {
-        const { dataValues: { id } } = productExists;
-  
-        await sequelize.transaction(async (t) => {
-          const mapped = details
-          .map((item) => this.productData.create({ ...item, productId: id }, { transaction: t }));
-  
-          await Promise.all(mapped);
-        });
-
-        return this.getById(id);
+        return this.updateDataOfExistingProduct(productExists, details);
       }
+      return this.createNewProduct(product, details);
 
-      const newProductId = await sequelize.transaction(async (t) => {
-        const { dataValues: { id } } = await this.product.create(product, { transaction: t });
-
-        const mapped = details
-        .map((item) => this.productData.create({ ...item, productId: id }, { transaction: t }));
-
-        await Promise.all(mapped);
-        
-        return id;
-      });
-      return this.getById(newProductId);
     } catch (error) {
       throw new HttpException(400, error.message);
     }
