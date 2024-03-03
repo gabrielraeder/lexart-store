@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config();
 
 module.exports = {
   development: {
@@ -6,7 +6,7 @@ module.exports = {
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DATABASE,
     host: process.env.POSTGRES_HOST,
-    dialect: "postgres",
+    dialect: 'postgres',
     protocol: 'postgres',
     dialectModule: require('pg'),
     dialectOptions: {
@@ -16,8 +16,8 @@ module.exports = {
       },
     },
     pool: {
-      max: 5, 
-      min: 0, 
+      max: 5,
+      min: 0,
       acquire: 30000,
       idle: 10000,
     },
@@ -25,16 +25,16 @@ module.exports = {
   test: {
     username: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
-    database: "database_test",
+    database: 'database_test',
     host: process.env.POSTGRES_HOST,
-    dialect: "postgres"
+    dialect: 'postgres',
   },
   production: {
     username: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DATABASE,
     host: process.env.POSTGRES_HOST,
-    dialect: "postgres",
+    dialect: 'postgres',
     protocol: 'postgres',
     dialectModule: require('pg'),
     dialectOptions: {
@@ -44,10 +44,10 @@ module.exports = {
       },
     },
     pool: {
-      max: 5, 
-      min: 0, 
+      max: 5,
+      min: 0,
       acquire: 30000,
       idle: 10000,
     },
-  }
+  },
 };
