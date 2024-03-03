@@ -27,51 +27,60 @@ function Form() {
     }, { email, password });
   };
 
+  const handleEnterKey = (event) => {
+    if (event.key === 'Enter' && !disabled) {
+      login();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleEnterKey);
+    return () => {
+      document.removeEventListener('keydown', handleEnterKey);
+    };
+  }, [disabled, login]);
+
   return (
-    <form>
-      <div className="input-with-label">
-        <label htmlFor="login-input-email">
-          Login
+    <form className="login_form">
+      <div className="input_with_label">
+        <label htmlFor="login_input_email">
+          Email
           <input
             type="email"
             name="email"
             value={ email }
             placeholder="email@trybeer.com.br"
             onChange={ ({ target: { value } }) => setEmail(value) }
-            id="login-input-email"
-            data-testid="common_login__input-email"
+            id="login_input_email"
           />
         </label>
       </div>
-      <div className="input-with-label">
-        <label htmlFor="login-input-password">
-          Senha
+      <div className="input_with_label">
+        <label htmlFor="login_input_password">
+          Password
           <input
             type="password"
             name="password"
             placeholder="**********"
             value={ password }
             onChange={ ({ target: { value } }) => setPassword(value) }
-            id="login-input-password"
-            data-testid="common_login__input-password"
+            id="login_input_password"
           />
         </label>
       </div>
-      <div className="login-buttons">
+      <div className="login_buttons">
         <button
-          className="login-btn"
+          className="login_btn"
           type="button"
           disabled={ disabled }
           onClick={ login }
-          data-testid="common_login__button-login"
         >
           LOGIN
         </button>
         <button
           type="button"
           onClick={ () => history('/register') }
-          data-testid="common_login__button-register"
-          className="register-btn"
+          className="register_btn"
         >
           Register
         </button>
@@ -92,7 +101,7 @@ export default function Login() {
   const { message } = useContext(context);
 
   return (
-    <div className="login-container" style={ style }>
+    <div className="login_container" style={ style }>
       <Form />
       {
         message

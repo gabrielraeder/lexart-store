@@ -1,5 +1,6 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './App.css';
+import './css/login.css'
 import Main from './pages/Main';
 import Login from './pages/Login';
 import Provider from './context/Provider';

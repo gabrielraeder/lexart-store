@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useMemo } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import postAPI from '../utils/postAPI';
 import context from '../context/context';
@@ -9,8 +9,6 @@ function Register() {
   const [password, setPassword] = useState('');
   const [disabled, setDisabled] = useState(true);
   const history = useNavigate();
-
-  const ROUTE = useMemo(() => 'common_register', []);
 
   useEffect(() => {
     const MIN_PASSWORD_CHARACTERS = 6;
@@ -35,16 +33,28 @@ function Register() {
     );
   };
 
+  const handleEnterKey = (event) => {
+    if (event.key === 'Enter' && !disabled) {
+      register();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleEnterKey);
+    return () => {
+      document.removeEventListener('keydown', handleEnterKey);
+    };
+  }, [disabled, register]);
+
   return (
-    <div className="container">
-      <h1>Cadastro</h1>
-      <form>
-        <div className="input-with-label">
+    <div className="register_container">
+      <h1>Create your account</h1>
+      <form className="login_form">
+        <div className="input_with_label">
           <label htmlFor="id">
             Email
             <input
               name="email"
-              data-testid={ `${ROUTE}__input-email` }
               type="email"
               id="email"
               placeholder="seu-email@site.com.br"
@@ -54,12 +64,11 @@ function Register() {
             />
           </label>
         </div>
-        <div className="input-with-label">
+        <div className="input_with_label">
           <label htmlFor="password">
-            Senha
+            Password
             <input
               placeholder="**********"
-              data-testid={ `${ROUTE}__input-password` }
               name="password"
               type="password"
               id="password"
@@ -71,20 +80,19 @@ function Register() {
         </div>
         <div>
           <button
-            className="btn"
+            className="register_btn"
             type="button"
-            data-testid={ `${ROUTE}__button-register` }
             disabled={ disabled }
             onClick={ register }
           >
-            Cadastrar
+            Register
           </button>
         </div>
       </form>
       {
         client.message === 'User already exists' && (
           <div className="message">
-            <span data-testid={ `${ROUTE}__element-invalid_register` }>
+            <span>
               {client.message}
             </span>
           </div>
