@@ -42,7 +42,7 @@ function Main() {
         <>
           <MyNavbar/>
           <CardList data={currentData} editData={setCurrentData}/>
-          <AddButton/>
+          <AddButton editData={setCurrentData}/>
         </>
         
       }

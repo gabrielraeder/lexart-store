@@ -22,7 +22,7 @@ export default function ItemModal({ showModal, handler, item, editData }) {
     const body = { name, brand, model };
     
     await putAPI(`/product/${item.id}`, console.log, body, token);
-    editData((prevState) => prevState.map((i) => i.id === item.id && {...i, ...body }));
+    editData((prevState) => prevState.map((i) => i.id === item.id ? {...i, ...body } : i));
     handler();
   };
 
@@ -43,9 +43,7 @@ export default function ItemModal({ showModal, handler, item, editData }) {
             <Form.Label>{'Model'}</Form.Label>
             <Form.Control type="text" value={model} onChange={({ target: { value } }) => setModel(value)} placeholder="Enter new product model" />  
           </Form>
-        </div>
-        
-        
+        </div>        
       </Modal.Body>
       <Modal.Footer>
           <Button variant="secondary" onClick={handler}>

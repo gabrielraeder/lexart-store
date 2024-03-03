@@ -39,8 +39,6 @@ const StoreItem = ({ item, editData }) => {
         <Button onClick={handleShow}>Edit product</Button>
       </Card>
       <ItemModal showModal={showModal} handler={handleShow} item={item} editData={editData}/>
-
-      
     </>
   );
 };

@@ -22,11 +22,12 @@ export async function getAPI(path, callback, token) {
   await fetchAPI(path, callback, options);
 }
 
-export async function postAPI(path, callback, body) {
+export async function postAPI(path, callback, body, token) {
   const options = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': token,
     },
     body: JSON.stringify(body),
   };
