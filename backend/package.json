@@ -36,7 +36,9 @@
   "devDependencies": {
     "chai": "4.3.6",
     "chai-http": "4.3.0",
-    "eslint-config-trybe-backend": "1.0.4",
+    "eslint": "^8.44.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
     "mocha": "9.2.2",
     "nodemon": "2.0.15",
     "nyc": "15.1.0",
