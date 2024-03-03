@@ -5,7 +5,7 @@ const authMiddleware = require('../middlewares/auth.middleware');
 
 const router = express.Router();
 
-// router.use(authMiddleware);
+router.use(authMiddleware);
 
 router.get('/', (req, res, next) => new ProductController(req, res, next).getAll());
 router.get('/:id', (req, res, next) => new ProductController(req, res, next).getById());
