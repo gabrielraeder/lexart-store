@@ -1,6 +1,5 @@
 const AbstractService = require('./Abstract.service');
-const { Product, ProductData, sequelize } = require('../database/models');
-const models = require('../database/models');
+const { Product, ProductData, sequelize, Sequelize } = require('../database/models');
 const HttpException = require('../utils/HttpException');
 const productMap = require('../utils/productMap');
 
@@ -12,8 +11,7 @@ class ProductService extends AbstractService {
   }
 
   async getAll() {
-    console.log(models.Sequelize)
-    const all = await models.Product.findAll({
+    const all = await Product.findAll({
       include: [
         { model: ProductData, as: 'data', attributes: { exclude: ['productId', 'id'] } },
       ],
@@ -37,9 +35,21 @@ class ProductService extends AbstractService {
     return product;
   }
   
+  async getByProperty(name, model) {
+    const product = await this.model.findOne({
+      where: {
+        [Sequelize.Op.or]: [
+          { name },
+          { model }
+        ]
+      },
+    });
+    return product;
+  }
+
   async create(data) {    
     try {
-      const productExists = await this.getByName(data.name);
+      const productExists = await this.getByProperty(data.name, data.model);
       const { product, details } = productMap(data);
 
       if (productExists) {
