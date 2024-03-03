@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "@vercel/postgres": "^0.7.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0"
   }
 }
