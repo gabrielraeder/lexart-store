@@ -49,7 +49,7 @@ function Form() {
             type="email"
             name="email"
             value={ email }
-            placeholder="email@trybeer.com.br"
+            placeholder="example@email.com"
             onChange={ ({ target: { value } }) => setEmail(value) }
             id="login_input_email"
           />
