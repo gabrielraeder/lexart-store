@@ -10,7 +10,6 @@ import ColorModal from './ColorModal';
 const StoreItem = ({ item, editData }) => {
   const [showItemModal, setShowItemModal] = useState(false);
   const [showColorModal, setShowColorModal] = useState(false);
-  const [color, setColor] = useState(item.data[0].color);
   const [price, setPrice] = useState(item.data[0].price);
 
   const { token } = useContext(Context);
