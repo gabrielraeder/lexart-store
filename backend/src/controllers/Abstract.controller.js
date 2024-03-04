@@ -1,8 +1,8 @@
 class AbstractController {
   constructor(
     service,
-    req, 
-    res, 
+    req,
+    res,
     next,
   ) {
     this.req = req;

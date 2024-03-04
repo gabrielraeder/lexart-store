@@ -1,17 +1,31 @@
 import { Button, Card } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import ItemModal from './ItemModal';
+import { deleteAPI } from '../utils/handleAPI';
+import Context from '../context/context';
+import ColorModal from './ColorModal';
 
 const StoreItem = ({ item, editData }) => {
-  const [showModal, setShowModal] = useState(false);
+  const [showItemModal, setShowItemModal] = useState(false);
+  const [showColorModal, setShowColorModal] = useState(false);
   const [color, setColor] = useState(item.data[0].color);
 
+  const { token } = useContext(Context);
 
-  const handleShow = () => {
-    setShowModal((prev) => !prev);
+  const handleShowItemModal = () => {
+    setShowItemModal((prev) => !prev);
   };
+
+  const handleShowColorModal = () => {
+    setShowColorModal((prev) => !prev);
+  };
+
+  const deleteProduct = async () => {
+    await deleteAPI(`/product/${item.id}`, token);
+    editData((prevState) => prevState.filter(({ id }) =>  id !== item.id));
+  }
 
   return (
     <>
@@ -36,9 +50,14 @@ const StoreItem = ({ item, editData }) => {
             <div className="color_space" style={{ backgroundColor: color }}></div>
           </div>
         </Card.Body>
-        <Button onClick={handleShow}>Edit product</Button>
+        <div className="edit_button_container">
+          <Button variant="success" onClick={handleShowColorModal}>Add Color</Button>
+          <Button onClick={handleShowItemModal}>Edit product</Button>
+        </div>
+        <Button variant="danger" onClick={deleteProduct}>Delete</Button>
       </Card>
-      <ItemModal showModal={showModal} handler={handleShow} item={item} editData={editData}/>
+      <ItemModal showModal={showItemModal} handler={handleShowItemModal} item={item} editData={editData}/>
+      <ColorModal showModal={showColorModal} handler={handleShowColorModal} item={item} editData={editData}/>
     </>
   );
 };

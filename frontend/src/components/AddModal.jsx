@@ -11,27 +11,22 @@ function AddModal({ handleShow, showModal, editData }) {
   const [brand, setBrand] = useState('');
   const [model, setModel] = useState('');
   const [color, setColor] = useState('');
-  const [color2, setColor2] = useState('');
-  const [color3, setColor3] = useState('');
   const [price, setPrice] = useState('');
-  const [price2, setPrice2] = useState('');
-  const [price3, setPrice3] = useState('');
+  
   const [disabled, setDisabled] = useState(true);
 
   const { token } = useContext(Context);
 
   useEffect(() => {
     if (name && brand && model && color && price) setDisabled(false);
-  }, [name, brand, model, color, price])
+  }, [name, brand, model, color, price]);
   
 
   const createProduct = () => {
     const product = {
       name, brand, model
     }
-    const data = [{ price, color }]
-    if (color2 && price2) data.push({ price: price2, color: color2 });
-    if (color3 && price3) data.push({ price: price3, color: color3 });
+    const data = [{ price, color }];
 
     return { ...product, data };
   }
@@ -40,6 +35,11 @@ function AddModal({ handleShow, showModal, editData }) {
     const product = createProduct();
     await postAPI('/product', handleShow, product, token);
     editData((prevState) => [...prevState, product]);
+    setName('');
+    setBrand('');
+    setModel('');
+    setColor('');
+    setPrice('');
   };
 
   return (
@@ -51,7 +51,8 @@ function AddModal({ handleShow, showModal, editData }) {
         <Modal.Body>
         <div className="text-center">
           <Form>
-          <Form.Label>{'Name'}</Form.Label>
+
+            <Form.Label>{'Name'}</Form.Label>
             <Form.Control type="text" value={name} onChange={({ target: { value } }) => setName(value)} placeholder="New product name" />
 
             <Form.Label>{'Brand'}</Form.Label>
@@ -61,52 +62,18 @@ function AddModal({ handleShow, showModal, editData }) {
             <Form.Control type="text" value={model} onChange={({ target: { value } }) => setModel(value)} placeholder="New product model" /> 
 
             <Form.Label>{'Color'}
-            <Form.Control
-              type="text"
-              value={color}
-              onChange={({ target: { value } }) => setColor(value)}
-            />
+              <Form.Control
+                type="text"
+                value={color}
+                onChange={({ target: { value } }) => setColor(value)}
+              />
             </Form.Label>
             <Form.Label>{'Price'}
-            <Form.Control
-              type="number"
-              value={price}
-              onChange={({ target: { value } }) => setPrice(value)}
-            />
-            </Form.Label>
-
-            <Form.Label>{'Color'}
-            <Form.Control
-              disabled={!price || !color}
-              type="text"
-              value={color2}
-              onChange={({ target: { value } }) => setColor2(value)}
-            />
-            </Form.Label>
-            <Form.Label>{'Price'}
-            <Form.Control
-              disabled={!price || !color}
-              type="number"
-              value={price2}
-              onChange={({ target: { value } }) => setPrice2(value)}
-            />
-            </Form.Label>
-
-            <Form.Label>{'Color'}
-            <Form.Control
-              disabled={(!price || !color) || (!price2 || !color2)}
-              type="text"
-              value={color3}
-              onChange={({ target: { value } }) => setColor3(value)}
-            />
-            </Form.Label>
-            <Form.Label>{'Price'}
-            <Form.Control
-              disabled={(!price || !color) || (!price2 || !color2)}
-              type="number"
-              value={price3}
-              onChange={({ target: { value } }) => setPrice3(value)}
-            />
+              <Form.Control
+                type="number"
+                value={price}
+                onChange={({ target: { value } }) => setPrice(value)}
+              />
             </Form.Label>
 
           </Form>

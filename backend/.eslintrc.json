@@ -12,6 +12,7 @@
       "indent": ["error", 2],
       "max-len": ["error", { "code": 120 }],
       "class-methods-use-this": [0],
-      "semi": ["error", "always"]
+      "semi": ["error", "always"],
+      "consistent-return": "off"
     }
 }

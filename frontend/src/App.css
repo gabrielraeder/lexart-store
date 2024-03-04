@@ -44,6 +44,11 @@ body {
   justify-content: center;
 }
 
+.card .edit_button_container {
+  display: flex;
+  justify-content: space-between;
+}
+
 .card .card-body p {
   margin: 5px 0;
 }

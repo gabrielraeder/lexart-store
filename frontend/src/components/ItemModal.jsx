@@ -23,6 +23,9 @@ export default function ItemModal({ showModal, handler, item, editData }) {
     
     await putAPI(`/product/${item.id}`, console.log, body, token);
     editData((prevState) => prevState.map((i) => i.id === item.id ? {...i, ...body } : i));
+    setName('');
+    setBrand('');
+    setModel('');
     handler();
   };
 

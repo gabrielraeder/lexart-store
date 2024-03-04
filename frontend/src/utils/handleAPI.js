@@ -39,9 +39,25 @@ export async function putAPI(path, callback, body, token = '') {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      authorization: token,
+      'Authorization': token,
     },
     body: JSON.stringify(body),
   };
   await fetchAPI(path, callback, options);
+}
+
+export async function deleteAPI(path, token) {
+  const options = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    },
+  };
+
+  try {
+    await fetch(`https://${HOST}${path}`, options);
+  } catch (error) {
+    console.log(error);
+  }
 }

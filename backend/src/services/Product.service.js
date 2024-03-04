@@ -41,7 +41,7 @@ class ProductService extends AbstractService {
   async getByProperty(name, model) {
     const product = await this.model.findOne({
       where: {
-        [Sequelize.Op.or]: [
+        [Sequelize.Op.and]: [
           { name },
           { model },
         ],
@@ -50,28 +50,31 @@ class ProductService extends AbstractService {
     return product;
   }
 
-  async updateDataOfExistingProduct(productExists, details) {
-    const { dataValues: { id } } = productExists;
-
+  async findProductDataDetails(productId, details) {
     const mapDetails = details.map((item) => this.productData
       .findOne({
         where: {
           [Sequelize.Op.and]: [
             { color: item.color },
-            { productId: id },
+            { productId },
           ],
         },
       }));
 
     const detailsFound = await Promise.all(mapDetails);
+    return detailsFound;
+  }
+
+  async updateDataOfExistingProduct(id, details) {
+    const detailsFound = await this.findProductDataDetails(id, details);
 
     await sequelize.transaction(async (t) => {
       const mapped = details
         .map((item) => {
           if (detailsFound) {
-            const itemFound = detailsFound.find(({ dataValues }) => dataValues.color === item.color);
+            const itemFound = detailsFound.find((data) => data && data.color === item.color);
             if (itemFound) {
-              return this.productData.update(item, { where: { id: itemFound.dataValues.id } });
+              return this.productData.update(item, { where: { id: itemFound.dataValues.id } }, { transaction: t });
             }
           }
 
@@ -104,7 +107,8 @@ class ProductService extends AbstractService {
       const { product, details } = productMap(data);
 
       if (productExists) {
-        return this.updateDataOfExistingProduct(productExists, details);
+        const { dataValues: { id } } = productExists;
+        return this.updateDataOfExistingProduct(id, details);
       }
       return this.createNewProduct(product, details);
     } catch (error) {
