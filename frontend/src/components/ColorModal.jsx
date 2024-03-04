@@ -41,14 +41,14 @@ function ColorModal({ handler, showModal, editData, item }) {
                 type="text"
                 value={color}
                 onChange={({ target: { value } }) => setColor(value)}
-                placeholder="Enter the color name or hex code"
+                placeholder="Enter the color name or hex-code"
               />
             
             <Form.Label>{'Price'}</Form.Label>
               <Form.Control
                 type="number"
                 value={price}
-                placeholder="Enter the price"
+                placeholder="Enter the product's price"
                 onChange={({ target: { value } }) => setPrice(value)}
               />
 

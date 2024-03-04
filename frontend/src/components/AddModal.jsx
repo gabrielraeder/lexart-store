@@ -46,35 +46,37 @@ function AddModal({ handleShow, showModal, editData }) {
     <>
       <Modal show={showModal} onHide={handleShow}>
         <Modal.Header closeButton>
-          <Modal.Title>Add a new Product</Modal.Title>
+          <Modal.Title>Add a new product</Modal.Title>
         </Modal.Header>
         <Modal.Body>
         <div className="text-center">
           <Form>
 
             <Form.Label>{'Name'}</Form.Label>
-            <Form.Control type="text" value={name} onChange={({ target: { value } }) => setName(value)} placeholder="New product name" />
+            <Form.Control type="text" value={name} onChange={({ target: { value } }) => setName(value)} placeholder="New product's name" />
 
             <Form.Label>{'Brand'}</Form.Label>
-            <Form.Control type="text" value={brand} onChange={({ target: { value } }) => setBrand(value)} placeholder="New product brand" />
+            <Form.Control type="text" value={brand} onChange={({ target: { value } }) => setBrand(value)} placeholder="New product's brand" />
 
             <Form.Label>{'Model'}</Form.Label>
-            <Form.Control type="text" value={model} onChange={({ target: { value } }) => setModel(value)} placeholder="New product model" /> 
+            <Form.Control type="text" value={model} onChange={({ target: { value } }) => setModel(value)} placeholder="New product's model" /> 
 
-            <Form.Label>{'Color'}
-              <Form.Control
-                type="text"
-                value={color}
-                onChange={({ target: { value } }) => setColor(value)}
-              />
-            </Form.Label>
-            <Form.Label>{'Price'}
-              <Form.Control
-                type="number"
-                value={price}
-                onChange={({ target: { value } }) => setPrice(value)}
-              />
-            </Form.Label>
+            <Form.Label>{'Color'}</Form.Label>
+            <Form.Control
+              placeholder="Enter the color name or hex-code"
+              type="text"
+              value={color}
+              onChange={({ target: { value } }) => setColor(value)}
+            />
+            
+            <Form.Label>{'Price'}</Form.Label>
+            <Form.Control
+              type="number"
+              value={price}
+              placeholder="Enter the product's price"
+              onChange={({ target: { value } }) => setPrice(value)}
+            />
+            
 
           </Form>
         </div>
