@@ -1,8 +1,8 @@
-const HOST = 'lexart-backend-delta.vercel.app';
+const HOST = import.meta.env.VITE_BACKEND_URL;
 
 async function fetchAPI(path, callback, options) {
   try {
-    const response = await fetch(`https://${HOST}${path}`, options);
+    const response = await fetch(`${HOST}${path}`, options);
     const data = await response.json();
     callback(data);
     return data;
@@ -56,7 +56,7 @@ export async function deleteAPI(path, token) {
   };
 
   try {
-    await fetch(`https://${HOST}${path}`, options);
+    await fetch(`${HOST}${path}`, options);
   } catch (error) {
     console.log(error);
   }
