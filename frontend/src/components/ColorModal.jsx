@@ -60,7 +60,7 @@ function ColorModal({ handler, showModal, editData, item }) {
             Close
           </Button>
           <Button variant="primary" disabled={disabled} onClick={callAPI}>
-            Save Changes
+            Save
           </Button>
         </Modal.Footer>
       </Modal>

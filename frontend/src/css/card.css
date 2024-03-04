@@ -1,0 +1,58 @@
+.card {
+  width: 18rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin: 10px;
+  padding: 10px;
+}
+
+.card:hover {
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transform: scale(1.01);
+}
+
+.card_body {
+  padding: 16px;
+}
+
+.card_title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.card_text {
+  color: #555;
+}
+
+.label_for_colors {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.select_colors {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.color_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.color_space {
+  width: 18px;
+  height: 26px;
+  border: 1px black solid;
+}
+
+.card .button_container {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+}

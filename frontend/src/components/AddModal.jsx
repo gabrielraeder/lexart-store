@@ -84,7 +84,7 @@ function AddModal({ handleShow, showModal, editData }) {
             Close
           </Button>
           <Button variant="primary" disabled={disabled} onClick={callAPI}>
-            Save Changes
+            Save
           </Button>
         </Modal.Footer>
       </Modal>

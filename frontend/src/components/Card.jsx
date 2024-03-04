@@ -11,6 +11,7 @@ const StoreItem = ({ item, editData }) => {
   const [showItemModal, setShowItemModal] = useState(false);
   const [showColorModal, setShowColorModal] = useState(false);
   const [color, setColor] = useState(item.data[0].color);
+  const [price, setPrice] = useState(item.data[0].price);
 
   const { token } = useContext(Context);
 
@@ -30,31 +31,31 @@ const StoreItem = ({ item, editData }) => {
   return (
     <>
       <Card style={{ width: '18rem' }} className="card" data-testid="card" >
-        <Card.Body>
-          <Card.Title>{item.name}</Card.Title>
-          <Card.Text>{item.model}</Card.Text>
-          <Card.Text>{item.brand}</Card.Text>
-          <label htmlFor="colors">Price:
-            <select name="colors" id="colors" onChange={({ target: { value } }) => setColor(value)}>
-              {
-                item.data.map((data) => (
-                  <option key={data.color} value={data.color}>
-                    ${data.price}
-                  </option>
-                ))
-              }
-            </select>
-          </label>
+        <Card.Body className="card_body">
+          <Card.Title className="card_title">{item.name}</Card.Title>
+          <Card.Text className="card_text">{item.model}</Card.Text>
+          <Card.Text className="card_text">{item.brand}</Card.Text>
           <div className="color_container">
-            <div>Color:</div>
-            <div className="color_space" style={{ backgroundColor: color }}></div>
+            {
+              item.data.map(({ color, price }) => (
+                <button 
+                  key={color}
+                  onClick={ ({ target: { value }}) => setPrice(value) }
+                  value={price} 
+                  className="color_space" 
+                  style={{ backgroundColor: color }}></button>
+              ))
+            }
           </div>
+
+          <h5>$ { price }</h5>
+          
         </Card.Body>
-        <div className="edit_button_container">
+        <div className="button_container">
           <Button variant="success" onClick={handleShowColorModal}>Add Color</Button>
           <Button onClick={handleShowItemModal}>Edit product</Button>
+          <Button variant="danger" onClick={deleteProduct}>Delete</Button>
         </div>
-        <Button variant="danger" onClick={deleteProduct}>Delete</Button>
       </Card>
       <ItemModal showModal={showItemModal} handler={handleShowItemModal} item={item} editData={editData}/>
       <ColorModal showModal={showColorModal} handler={handleShowColorModal} item={item} editData={editData}/>
