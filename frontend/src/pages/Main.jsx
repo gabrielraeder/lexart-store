@@ -23,7 +23,7 @@ function Main() {
           history('/');
         } else {
           await getAPI('/product', (res) => {
-            if (res.status !== 200) history('/');
+            if (res.message) history('/');
             setCurrentData(res);
           }, token);
         }
