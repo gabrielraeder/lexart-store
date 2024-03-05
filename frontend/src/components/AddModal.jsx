@@ -33,8 +33,11 @@ function AddModal({ handleShow, showModal, editData }) {
 
   const callAPI = async () => {
     const product = createProduct();
-    await postAPI('/product', handleShow, product, token);
-    editData((prevState) => [...prevState, product]);
+    await postAPI('/product', (res) => {
+      editData((prevState) => [...prevState, res]);
+      handleShow();
+    }, product, token);
+   
     setName('');
     setBrand('');
     setModel('');

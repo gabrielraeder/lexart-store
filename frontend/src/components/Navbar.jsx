@@ -19,7 +19,7 @@ export default function MyNavbar() {
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand href="/main">My Store</Navbar.Brand>
+        <Navbar.Brand><b>My Store</b></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">

@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
 import { useEffect, useState, useContext } from 'react';
 import Context from '../context/context';
-import { putAPI } from '../utils/handleAPI';
+import { getAPI, putAPI } from '../utils/handleAPI';
 
 export default function ItemModal({ showModal, handler, item, editData }) {
   const [name, setName] = useState('');
@@ -20,9 +20,10 @@ export default function ItemModal({ showModal, handler, item, editData }) {
 
   const handleChange = async () => {
     const body = { name, brand, model };
-    
     await putAPI(`/product/${item.id}`, console.log, body, token);
-    editData((prevState) => prevState.map((i) => i.id === item.id ? {...i, ...body } : i));
+    await getAPI('/product', (res) => {
+      editData(res);
+    }, token);
     setName('');
     setBrand('');
     setModel('');
