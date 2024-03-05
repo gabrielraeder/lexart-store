@@ -23,10 +23,12 @@ function Main() {
           history('/');
         } else {
           await getAPI('/product', (res) => {
+            if (res.status !== 200) history('/');
             setCurrentData(res);
           }, token);
         }
       } catch (error) {
+        history('/');
         console.error('Error fetching data:', error);
       }
     };
